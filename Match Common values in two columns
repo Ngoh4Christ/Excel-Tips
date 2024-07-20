@@ -1,0 +1,32 @@
+
+
+
+
+Sub CompareAndMatchLists()
+    Dim ws As Worksheet
+    Dim lastRowA As Long, lastRowB As Long
+    Dim rngA As Range, rngB As Range
+    Dim cellA As Range, cellB As Range
+
+    Set ws = ThisWorkbook.Sheets("Sheet1") ' Change to your sheet name
+    lastRowA = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+    lastRowB = ws.Cells(ws.Rows.Count, "B").End(xlUp).Row
+
+    Set rngA = ws.Range("A1:A" & lastRowA)
+    Set rngB = ws.Range("B1:B" & lastRowB)
+
+    ' Clear previous results
+    ws.Range("C1:E" & lastRowA).ClearContents
+
+    ' Compare column A to column B and output matches in column E
+    For Each cellA In rngA
+        For Each cellB In rngB
+            If cellA.Value = cellB.Value Then
+                cellA.Offset(0, 4).Value = cellB.Value
+                Exit For
+            End If
+        Next cellB
+    Next cellA
+
+    MsgBox "Comparison and Matching Complete"
+End Sub
